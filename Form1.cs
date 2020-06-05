@@ -19,6 +19,7 @@ namespace Life_Simulator
         private bool[,] field;
         private int rows;
         private int cols;
+        private int currentGeneration = 0;
         public Form1()
         {
             InitializeComponent();
@@ -31,6 +32,7 @@ namespace Life_Simulator
 
             numResolution.Enabled = false;
             numDensity.Enabled = false;
+            Text = $"Generation {currentGeneration}";
 
             resolution = (int)numResolution.Value;
             rows = pictureBox1.Height / resolution;
@@ -83,6 +85,7 @@ namespace Life_Simulator
 
             field = newField;
             pictureBox1.Refresh();
+            Text = $"Generation {++currentGeneration}";
         }
         private int CountNeighbours(int x, int y)
         {
@@ -132,6 +135,47 @@ namespace Life_Simulator
         private void bStart_Click(object sender, EventArgs e)
         {
             StartGame();
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!timer1.Enabled)
+            {
+                return;
+            }
+
+            if (e.Button == MouseButtons.Left)
+            {
+                var x = e.Location.X / resolution;
+                var y = e.Location.Y / resolution;
+
+                if (ValidateMousePosition(x, y))
+                {
+                    field[x, y] = true;
+                }
+                
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                var x = e.Location.X / resolution;
+                var y = e.Location.Y / resolution;
+               
+                if (ValidateMousePosition(x, y))
+                {
+                    field[x, y] = false;
+                }
+
+            }
+        }
+
+        private bool ValidateMousePosition(int x , int y)
+        {
+            return x >= 0 && y >= 0 && x < cols && y < rows;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Text = $"Generation {currentGeneration}";
         }
     }
 }
