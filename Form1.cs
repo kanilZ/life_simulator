@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
+
 
 namespace Life_Simulator
 {
@@ -55,29 +55,55 @@ namespace Life_Simulator
         private void NextGeneration()
         {
             graphics.Clear(Color.Black);
+
+            var newField = new bool[cols, rows];
+
             for (int x = 0; x < cols; x++)
             {
                 for (int y = 0; y < rows; y++)
                 {
-                    if (field[x, y])
-                    {
+                    var neighboursCount = CountNeighbours(x, y);
+                    var hasLife = field[x, y];
+
+                    if (!hasLife && neighboursCount == 3)
+                        newField[x, y] = true;
+
+                    else if (hasLife && (neighboursCount < 2 || neighboursCount > 3))
+                        newField[x, y] = false;
+
+                    else
+                        newField[x, y] = field[x, y];
+
+                    if (hasLife)
                         graphics.FillRectangle(Brushes.Crimson, x * resolution, y * resolution, resolution, resolution);
-                    }
+
                 }
             }
 
-            Random random = new Random();
-            for (int x = 0; x < cols; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
-                    field[x, y] = random.Next((int)numDensity.Value) == 0;
-                }
-            }
 
+            field = newField;
             pictureBox1.Refresh();
         }
+        private int CountNeighbours(int x, int y)
+        {
+            int count = 0;
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    var col = (x + i + cols)% cols;
+                    var row = (y + j + rows) % rows;
 
+                    var isSelfChecking = col == x && row == y;
+                    var hasLife = field[col, row];
+
+                    if (hasLife && !isSelfChecking)
+                        count++;
+
+                }
+            }
+            return count;
+        }
         private void StopGame()
         {
             if (!timer1.Enabled)
