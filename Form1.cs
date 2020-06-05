@@ -52,7 +52,21 @@ namespace Life_Simulator
             timer1.Start();
         }
 
-
+        private void NextGeneration()
+        {
+            graphics.Clear(Color.Black);
+            for (int x = 0; x < cols; x++)
+            {
+                for (int y = 0; y < rows; y++)
+                {
+                    if (field[x,y])
+                    {
+                        graphics.FillRectangle(Brushes.Crimson, x * resolution, y * resolution, resolution, resolution);
+                    }
+                }
+            }
+            pictureBox1.Refresh();
+        }
         private void numDensity_ValueChanged(object sender, EventArgs e)
         {
 
@@ -65,7 +79,7 @@ namespace Life_Simulator
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
+            NextGeneration();
         }
 
         private void bStart_Click(object sender, EventArgs e)
