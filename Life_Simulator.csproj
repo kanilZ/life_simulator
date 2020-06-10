@@ -85,5 +85,11 @@
   <ItemGroup>
     <Content Include=".gitignore" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LifeGame\LifeGame.csproj">
+      <Project>{AF108663-5D03-42E9-AEC7-AC03A2956ABE}</Project>
+      <Name>LifeGame</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
