@@ -146,8 +146,8 @@ namespace Life_Simulator
 
             if (e.Button == MouseButtons.Left)
             {
-                var x = e.Location.X / resolution;
-                var y = e.Location.Y / resolution;
+                var x = ComputeCoords(e.Location.X);
+                var y = ComputeCoords(e.Location.Y);
 
                 if (ValidateMousePosition(x, y))
                 {
@@ -166,6 +166,11 @@ namespace Life_Simulator
                 }
 
             }
+        }
+
+        private int ComputeCoords(int location)
+        {
+            return location / resolution;
         }
 
         private bool ValidateMousePosition(int x , int y)
