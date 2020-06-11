@@ -96,7 +96,6 @@ namespace Life_Simulator
             if (e.Button == MouseButtons.Right)
             {
                 life.CreateCells(e.Location.X, e.Location.Y, false);
-
             }
         }
 
